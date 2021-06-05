@@ -1,0 +1,15 @@
+.constainer{
+    align-items: center;
+    padding: 25px 15px;
+}
+.constainer .cell{
+    cursor: pointer;
+    display: inline-block;
+    color: darkslategrey;
+}
+
+.constainer .cell:last-child{
+    cursor: none;
+    pointer-events: none;
+    color: #9b9b9b;
+}

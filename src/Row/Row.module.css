@@ -1,0 +1,8 @@
+.constainer{
+    cursor: pointer;
+    width: 100%;
+    align-items: center;
+}
+.constainer .cell{
+    width: 100%;
+}
