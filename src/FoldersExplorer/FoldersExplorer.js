@@ -9,31 +9,33 @@ import {generatePath, getDisplayTimeFormat,getRowList,getPathList} from './helpe
 
 const FoldersExplorer = (data) =>{
 
-    const {entityData, enterEntety,path} = useFoldersExplorer(data)
-    console.log("entity ", entityData)
-    console.log("path ", path)
+    const {entityData, onEntityClick,path} = useFoldersExplorer(data)
     const parentPath = entityData.parentPath.replace(/\.[^.]*$/g,"").replace(/\.[^.]*$/g,"")
 
     const generateEntityRow = (item, parent ) =>{
         const entityPath = generatePath(parent, path, item.parentPath, parentPath)
-        const classes = parent ?  {container:[styles["parentRow"]]}: {container: [styles["childRow"]]}
+        const classes = parent ?  {container:styles.parentRow}: {container: styles.childRow}
         const rowList = getRowList(item.displayName,getDisplayTimeFormat(item?.lastUpdated.updatedAt),item?.lastUpdated.updatedBy)
 
-        return <FlexRow onClick={()=>enterEntety(entityPath)} data={rowList} key={rowList[0]} parent={parent} classes={classes}></FlexRow>
+        return <FlexRow onClick={()=>onEntityClick(entityPath)} data={rowList} key={rowList[0]} parent={parent} classes={classes}></FlexRow>
     }
 
     const generateEntityPath = (item, parent)=>{
         const entityPath = generatePath(parent, path, item.parentPath, parentPath)
         const destinationLinksList = getPathList(item?.parentPath)
-        const classes ={container:[styles["linkPath"]]}
-        return <DestinationLink onClick={enterEntety} data={destinationLinksList} key={entityPath} classes={classes}></DestinationLink>
+        const classes ={container:styles.linkPath}
+        return <DestinationLink onClick={onEntityClick} data={destinationLinksList} key={entityPath} classes={classes}></DestinationLink>
     }
 
     return (
         <div className={cn(styles.constainer)}>
-            {entityData && generateEntityPath(entityData, true)}
-            {entityData  && generateEntityRow(entityData , true)}
-            {entityData  && Object.keys(entityData.children).map(item => generateEntityRow(entityData.children[item])) }
+            {entityData && (
+                <>
+                    {generateEntityPath(entityData, true)}
+                    {generateEntityRow(entityData , true)}
+                    {Object.keys(entityData.children).map(item => generateEntityRow(entityData.children[item]))}
+                </>
+            )}
         </div>
     )
 }

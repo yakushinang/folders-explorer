@@ -1,10 +1,9 @@
 import moment from 'moment';
 
-// better naming for consts
-const compareDates = (a,b) =>{
-    const dateA = new Date(a)
-    const dateB = new Date(b)
-    return dateA>dateB?a:b
+const compareDates = (dateString1,dateString2) =>{
+    const date1 = new Date(dateString1)
+    const date2 = new Date(dateString2)
+    return date1>date2?dateString1:dateString2
 }
 
 const buildPath=(pathItem, name)=>{
@@ -42,8 +41,7 @@ export const convertToLookupTable = (dataList = []) =>{
         lastUpdated.updatedAt = lastUpdated.updatedAt.replace(/\s/g, '')
         hashTable = generateLookupTable(hashTable, dataList[i], currentName, currentPath, pathList ,lastUpdated)
     }
-
-    const DEFAULT_ENTITY_DATA ={
+    return  {
         urn:{
             parentPath:"urn",
             parent:"",
@@ -51,8 +49,7 @@ export const convertToLookupTable = (dataList = []) =>{
             displayName:"urn",
             lastUpdated:""
         }
-    } 
-    return DEFAULT_ENTITY_DATA
+    }
 }
 
 export const generatePath=(parent , path, entityParentPath,parentPath)=>{
@@ -67,8 +64,6 @@ export function getRowList(){
     const args = [...arguments];
     return args
 }
-
-
 export const getPathList=(pathString)=>{
     const pathList = pathString.split(".children.")
     let curentPath=""
